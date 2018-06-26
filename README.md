@@ -2,6 +2,7 @@
 Projekat Tima 6 iz predmeta Specifikacija i modeliranje softvera.
 
 Članovi:
+
 SW16-2016	Milan	Milovanović
 
 SW36-2016	Kristina	Đereg
