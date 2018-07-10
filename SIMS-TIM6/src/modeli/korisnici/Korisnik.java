@@ -27,4 +27,6 @@ public abstract class Korisnik {
 		this.password = password;
 	}
 	
+	
+	
 }
