@@ -50,7 +50,7 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 
 		JLabel lblList = new JLabel("LISTA IDE OVDE");
 		lblList.setFont(new Font("Arial", Font.PLAIN, 30));
-		lblList.setPreferredSize(new Dimension(370, 690));
+		lblList.setPreferredSize(new Dimension(370, 670));
 		lblList.setBackground(Color.decode("#ffd27f"));
 		lblList.setOpaque(true);
 
@@ -85,7 +85,7 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 				priceLbl, priceTxt, payBtn);
 
 		setTitle("Naplata");
-		setSize(1360, 750);
+		setSize(1360, 730);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -104,14 +104,14 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 				.addComponent(arg[0], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addComponent(arg[1], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addComponent(arg[2], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(20)
+				.addGap(10)
 				.addComponent(arg[5], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl.createParallelGroup()
 						.addComponent(arg[3], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
 						.addComponent(arg[4], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
-						.addGap(206).addComponent(arg[6], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						.addGap(196).addComponent(arg[6], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE))
 				.addGap(40)
 				.addComponent(arg[7], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -137,7 +137,7 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 				.addComponent(arg[0], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addComponent(arg[1], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addComponent(arg[2], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(90)
+				.addGap(75)
 				.addGroup(gl.createParallelGroup()
 						.addComponent(arg[5], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
@@ -148,7 +148,7 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 								GroupLayout.PREFERRED_SIZE)
 						.addComponent(arg[4], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
-						.addGap(206))
+						.addGap(196))
 				.addGap(40)
 				.addComponent(arg[7], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addGap(40)
