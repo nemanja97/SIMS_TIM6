@@ -17,9 +17,11 @@ import modeli.korisnici.ZaposleniNaNaplatnomMestu;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import static javax.swing.LayoutStyle.ComponentPlacement.UNRELATED;
 
+@SuppressWarnings("serial")
 public class LoginProzor extends JFrame {
 	
 	private JTextField loginField;
@@ -39,6 +41,7 @@ public class LoginProzor extends JFrame {
 		passField = new JPasswordField(15);
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(new SubmitAction(this));
+		submitButton.setMnemonic(KeyEvent.VK_ENTER);
 
 		createLayout(loginLabel, loginField, passwordLabel, passField, submitButton);
 
@@ -69,6 +72,7 @@ public class LoginProzor extends JFrame {
             	for (Korisnik k : Centrala.getInstance().getSviKorisnici()) {
             		if (k.getUsername().equals(login) && k.getPassword().equals(String.valueOf(passwd))) {
             			JFrame frame;
+            			Centrala.getInstance().setTrenutnoUlogovani(k);
             			if (k.getClass() == Admin.class) {
             				frame = new AdminProzor();
             			} else if (k.getClass() == SefStanice.class) {
@@ -77,8 +81,9 @@ public class LoginProzor extends JFrame {
             				frame = new ZaposleniNaNaplatnomMestuProzor();
             			} else {
             				frame = new ZaposleniUCentraliProzor();
-            			}
+            			} 
             			frame.setVisible(true);
+            			//frame.setResizable(false);
             			this.lp.dispose();
             		}
             	}
