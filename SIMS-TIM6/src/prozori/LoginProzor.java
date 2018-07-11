@@ -72,6 +72,7 @@ public class LoginProzor extends JFrame {
             	for (Korisnik k : Centrala.getInstance().getSviKorisnici()) {
             		if (k.getUsername().equals(login) && k.getPassword().equals(String.valueOf(passwd))) {
             			JFrame frame;
+            			Centrala.getInstance().setTrenutnoUlogovani(k);
             			if (k.getClass() == Admin.class) {
             				frame = new AdminProzor();
             			} else if (k.getClass() == SefStanice.class) {
@@ -80,8 +81,9 @@ public class LoginProzor extends JFrame {
             				frame = new ZaposleniNaNaplatnomMestuProzor();
             			} else {
             				frame = new ZaposleniUCentraliProzor();
-            			}
+            			} 
             			frame.setVisible(true);
+            			//frame.setResizable(false);
             			this.lp.dispose();
             		}
             	}

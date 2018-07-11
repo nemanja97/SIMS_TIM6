@@ -14,7 +14,12 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import modeli.izvestaji.Izvestaj;
 import modeli.izvestaji.TipIzvestaja;
+import modeli.korisnici.Admin;
 import modeli.korisnici.Korisnik;
+import modeli.korisnici.SefStanice;
+import modeli.korisnici.TipKorisnika;
+import modeli.korisnici.ZaposleniNaNaplatnomMestu;
+import modeli.korisnici.ZaposleniUCentrali;
 
 public class Centrala {
 	
@@ -38,6 +43,7 @@ public class Centrala {
 		
 		XStream.setupDefaultSecurity(this.xstream);
 		this.xstream.addPermission(AnyTypePermission.ANY);
+		this.xstream.setMode(XStream.XPATH_RELATIVE_REFERENCES);;
 		this.ucitavanjePodataka();
 	}
 	
@@ -111,19 +117,33 @@ public class Centrala {
 		this.xstream = xstream;
 	}
 
-	public boolean registracijaDeonice() {
-		// TODO: implement
-		return false;
+	public boolean registracijaDeonice(Mesto m1, Mesto m2, ArrayList<Cenovnik> cenovnici) {
+		this.deonice.add(new Deonica(m1, m2, cenovnici));
+		return true;
 	}
 	
-	public boolean registracijaStanice() {
-		// TODO: implement
-		return false;
+	public boolean registracijaStanice(NaplatnaStanica naplatnaStanica) {
+		this.naplatneStanice.add(naplatnaStanica);
+		return true;
 	}
 	
-	public boolean registracijaKorisnika() {
-		// TODO: implement
-		return false;
+	public boolean registracijaKorisnika(String username, String password, TipKorisnika tip) {
+		switch (tip) {
+			case ADMIN:
+				this.sviKorisnici.add(new Admin(username, password));
+				return true;
+			case SEF_STANICE:
+				this.sviKorisnici.add(new SefStanice(username, password));
+				return true;
+			case ZAPOSLENI_NA_NAPLATNOM_MESTU:
+				this.sviKorisnici.add(new ZaposleniNaNaplatnomMestu(username, password));
+				return true;
+			case ZAPOSLENI_U_CENTRALI:
+				this.sviKorisnici.add(new ZaposleniUCentrali(username, password));
+				return true;
+			default:
+				return false;
+		}
 	}
 	
 	public boolean brisanjeDeonice() {
