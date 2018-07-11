@@ -6,11 +6,17 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
+
+import modeli.Deonica;
+import modeli.Kategorija;
+import modeli.TipValute;
 
 @SuppressWarnings("serial")
 public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
@@ -18,6 +24,11 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 	public ZaposleniNaNaplatnomMestuProzor() {
 		initUI();
 	}
+
+	private DefaultListModel deonice_model;
+	private Kategorija kategorija = null;
+	private TipValute tipValute = null;
+	private Deonica deonica = null;
 
 	private void initUI() {
 
@@ -48,11 +59,18 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 		rsdBtn.setFont(new Font("Arial", Font.PLAIN, 30));
 		eurBtn.setFont(new Font("Arial", Font.PLAIN, 30));
 
-		JLabel lblList = new JLabel("LISTA IDE OVDE");
-		lblList.setFont(new Font("Arial", Font.PLAIN, 30));
-		lblList.setPreferredSize(new Dimension(370, 670));
-		lblList.setBackground(Color.decode("#ffd27f"));
-		lblList.setOpaque(true);
+		deonice_model = new DefaultListModel();
+
+		JList lista = new JList(deonice_model);
+		lista.setFont(new Font("Arial", Font.PLAIN, 30));
+		lista.setPreferredSize(new Dimension(370, 670));
+
+		/*
+		 * JLabel lblList = new JLabel("LISTA IDE OVDE"); lblList.setFont(new
+		 * Font("Arial", Font.PLAIN, 30)); lblList.setPreferredSize(new
+		 * Dimension(370, 670)); lblList.setBackground(Color.decode("#ffd27f"));
+		 * lblList.setOpaque(true);
+		 */
 
 		JLabel lblCtrl = new JLabel("KONTROLER OVDE");
 		lblCtrl.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -81,7 +99,7 @@ public class ZaposleniNaNaplatnomMestuProzor extends JFrame {
 		payBtn.setPreferredSize(new Dimension(200, 130));
 		payBtn.setFont(new Font("Arial", Font.PLAIN, 30));
 
-		createLayout(katBtn1, katBtn2, katBtn3, katBtn4, katBtn5, rsdBtn, eurBtn, lblList, lblCtrl, upBtn, dwBtn,
+		createLayout(katBtn1, katBtn2, katBtn3, katBtn4, katBtn5, rsdBtn, eurBtn, lista, lblCtrl, upBtn, dwBtn,
 				priceLbl, priceTxt, payBtn);
 
 		setTitle("Naplata");
