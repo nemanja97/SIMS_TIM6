@@ -43,6 +43,7 @@ public class Centrala {
 		
 		XStream.setupDefaultSecurity(this.xstream);
 		this.xstream.addPermission(AnyTypePermission.ANY);
+		this.xstream.setMode(XStream.XPATH_RELATIVE_REFERENCES);;
 		this.ucitavanjePodataka();
 	}
 	
@@ -121,9 +122,9 @@ public class Centrala {
 		return true;
 	}
 	
-	public boolean registracijaStanice() {
-		// TODO: implement
-		return false;
+	public boolean registracijaStanice(NaplatnaStanica naplatnaStanica) {
+		this.naplatneStanice.add(naplatnaStanica);
+		return true;
 	}
 	
 	public boolean registracijaKorisnika(String username, String password, TipKorisnika tip) {

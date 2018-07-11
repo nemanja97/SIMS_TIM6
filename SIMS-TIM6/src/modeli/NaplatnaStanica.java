@@ -26,6 +26,15 @@ public class NaplatnaStanica {
 		this.naplatnaMesta = naplatnaMesta;
 		this.izvestaji = new ArrayList<Izvestaj>();
 	}
+	
+	public NaplatnaStanica(String naziv, Centrala centrala, ArrayList<Deonica> deonice) {
+		super();
+		this.naziv = naziv;
+		this.centrala = centrala;
+		this.deonice = deonice;
+		this.naplatnaMesta =  new ArrayList<NaplatnoMesto>();
+		this.izvestaji = new ArrayList<Izvestaj>();
+	}
 
 	public NaplatnaStanica(String naziv, SefStanice sefStanice, Centrala centrala, ArrayList<Deonica> deonice,
 			ArrayList<NaplatnoMesto> naplatnaMesta, ArrayList<Izvestaj> izvestaji) {
@@ -37,6 +46,13 @@ public class NaplatnaStanica {
 		this.naplatnaMesta = naplatnaMesta;
 		this.izvestaji = izvestaji;
 	}
+	
+	private Object readResolve() {
+	    for( NaplatnoMesto child: naplatnaMesta ) {
+	      child.setNaplatnaStanica(this);
+	    }
+	    return this;
+	  }
 
 	public String getNaziv() {
 		return naziv;

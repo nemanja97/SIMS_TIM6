@@ -83,7 +83,7 @@ public class LoginProzor extends JFrame {
             				frame = new ZaposleniUCentraliProzor();
             			} 
             			frame.setVisible(true);
-            			frame.setResizable(false);
+            			//frame.setResizable(false);
             			this.lp.dispose();
             		}
             	}

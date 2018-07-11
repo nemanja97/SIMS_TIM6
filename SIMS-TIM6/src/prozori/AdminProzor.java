@@ -13,23 +13,31 @@ import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 
 import static javax.swing.GroupLayout.Alignment.BASELINE;
 import static javax.swing.GroupLayout.Alignment.TRAILING;
 
 import modeli.Centrala;
+import modeli.Deonica;
 import modeli.Mesto;
+import modeli.NaplatnaStanica;
+import modeli.NaplatnoMesto;
+import modeli.TipNaplatnogMesta;
 import modeli.Cenovnik;
 import modeli.Kategorija;
 import modeli.korisnici.Admin;
@@ -87,6 +95,15 @@ public class AdminProzor extends JFrame {
     private JTextField k4EUR_field = new JTextField(15);
     private JLabel k5_EUR = new JLabel("Kategorija 5");
     private JTextField k5EUR_field = new JTextField(15);
+    
+    private JLabel nazivstaniceLbl = new JLabel("Naziv stanice: ");
+    private JTextField nazivstaniceFld = new JTextField(15);
+    
+    private DefaultListModel deonice_model;
+    private JList deonice_list;
+    
+    private DefaultListModel naplatnaMesta_model;
+    private JList naplatnaMesta_list;
 	
 	public AdminProzor() {
 		initUI();
@@ -102,7 +119,7 @@ public class AdminProzor extends JFrame {
         statusbar = new JLabel("Korisnik :: " + Centrala.getInstance().getTrenutnoUlogovani().getUsername());
         statusbar.setBorder(BorderFactory.createEtchedBorder());
         add(statusbar, BorderLayout.SOUTH);
-        //statusbar.setVisible(true);
+        statusbar.setVisible(true);
     }
 	
 	private void add_menuRegistracija(JMenuBar menubar) {
@@ -245,7 +262,7 @@ public class AdminProzor extends JFrame {
                 );
         	}
         		break;
-        	case REG_DEONICA:
+        	case REG_DEONICA: {
         		statusbar.setText("Korisnik :: " + Centrala.getInstance().getTrenutnoUlogovani().getUsername() + " - Registracija deonica");
 
                 GroupLayout gl = new GroupLayout(pane);
@@ -381,10 +398,143 @@ public class AdminProzor extends JFrame {
                         .addComponent(submitButton)
                         
                 );
-        		
+        	}
         		break;
-        	case REG_STANICA:
-        		statusbar.setText("Korisnik :: " + Centrala.getInstance().getTrenutnoUlogovani().getUsername() + " - Registracija stanica");
+        	case REG_STANICA: {
+        		statusbar.setText("Korisnik :: " + Centrala.getInstance().getTrenutnoUlogovani().getUsername() + " - Registracija korisnika");
+        		
+                GroupLayout gl = new GroupLayout(pane);
+                pane.setLayout(gl);
+                
+                ArrayList<Deonica> deonice = new ArrayList<Deonica>();
+                ArrayList<NaplatnoMesto> naplatnaMesta = new ArrayList<NaplatnoMesto>();
+                
+                JButton submitButton = new JButton("Submit");
+
+                submitButton.addActionListener(event  -> {
+                	
+                	NaplatnaStanica ns = new NaplatnaStanica(nazivstaniceFld.getText(), Centrala.getInstance(), deonice);
+                	
+        	    	for (int i = 0; i < naplatnaMesta_model.getSize(); i++) {
+        	    		String tip = (String) naplatnaMesta_model.get(i);
+        	    		if (tip.equals("E"))
+        	    			naplatnaMesta.add(new NaplatnoMesto(TipNaplatnogMesta.ELEKTRONSKO, i, ns));
+        	    		else 
+        	    			naplatnaMesta.add(new NaplatnoMesto(TipNaplatnogMesta.FIZICKO, i, ns));
+        	    	}
+        	    	
+        	    	ns.setNaplatnaMesta(naplatnaMesta);
+        	    	if (Centrala.getInstance().registracijaStanice(ns))
+        	    		Centrala.getInstance().snimanjePodataka();
+                });
+        		
+        		deonice_model = new DefaultListModel();
+        		for (Deonica d : Centrala.getInstance().getDeonice()) {
+        			deonice_model.addElement(d.getMesto1().getNaziv() + " - " + d.getMesto2().getNaziv());
+        		}
+        		
+        		deonice_list = new JList(deonice_model);
+        		deonice_list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        	    JButton deonice_dodaj = new JButton("Izaberi deonicu");
+        	    JButton deonice_izbaci = new JButton("Ponisti izbor");
+        	    JScrollPane deonice_scrollPane = new JScrollPane(deonice_list);
+        	    
+        	    deonice_dodaj.addActionListener(event  -> {
+        	    	int[] indices = deonice_list.getSelectedIndices();
+        	    	for (int i : indices)
+        	    		deonice.add(Centrala.getInstance().getDeonice().get(i));
+                });
+        	    
+        	    deonice_izbaci.addActionListener(event  -> {
+        	    	deonice_list.clearSelection();
+        	    	deonice.clear();
+                });
+        		
+        		naplatnaMesta_model = new DefaultListModel();
+        		naplatnaMesta_list = new JList(naplatnaMesta_model);
+        		naplatnaMesta_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        		JButton naplatnaMesta_dodajE = new JButton("Dodaj elektronsko naplatno mesto");
+        		JButton naplatnaMesta_dodajF = new JButton("Dodaj fizicko naplatno mesto");
+        	    JButton naplatnaMesta_izbaci = new JButton("Izbaci");
+        	    JScrollPane naplatnaMesta_scrollPane = new JScrollPane(naplatnaMesta_list);
+        	    
+        	    naplatnaMesta_dodajE.addActionListener(event  -> {
+        	    	naplatnaMesta_model.addElement("E");
+                });
+        	    
+        	    naplatnaMesta_dodajF.addActionListener(event  -> {
+        	    	naplatnaMesta_model.addElement("F");
+                });
+        	    
+        	    naplatnaMesta_izbaci.addActionListener(event  -> {
+        	    	ListSelectionModel selModel = naplatnaMesta_list.getSelectionModel();
+        	    	int index = selModel.getMinSelectionIndex();
+        	    	
+        	    	if (index >= 0)
+        	    		naplatnaMesta_model.remove(index);
+        	    	
+                });
+                
+                gl.setAutoCreateGaps(true);
+                gl.setAutoCreateContainerGaps(true);
+
+                gl.setHorizontalGroup(gl.createSequentialGroup()
+                		.addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+                				.addGroup(gl.createSequentialGroup()
+                						.addComponent(nazivstaniceLbl)
+                        				.addComponent(nazivstaniceFld)
+                						)
+                				.addComponent(submitButton)
+                				.addGroup(gl.createSequentialGroup()
+                				.addComponent(deonice_scrollPane)
+                				.addGroup(gl.createParallelGroup()
+                						.addComponent(deonice_dodaj, GroupLayout.PREFERRED_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                						.addComponent(deonice_izbaci, GroupLayout.DEFAULT_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                				)
+                		.addGap(200)
+                		.addGroup(gl.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                				.addGroup(gl.createSequentialGroup()
+                				.addComponent(naplatnaMesta_scrollPane)
+                				.addGroup(gl.createParallelGroup()
+                						.addComponent(naplatnaMesta_dodajE, GroupLayout.PREFERRED_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                						.addComponent(naplatnaMesta_dodajF, GroupLayout.PREFERRED_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                						.addComponent(naplatnaMesta_izbaci, GroupLayout.DEFAULT_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                				)
+                );
+
+                gl.setVerticalGroup(gl.createSequentialGroup()
+                		.addGroup(gl.createParallelGroup()
+                				.addGroup(gl.createParallelGroup()
+                						.addComponent(deonice_scrollPane, GroupLayout.PREFERRED_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                						.addGroup(gl.createSequentialGroup()
+                								.addComponent(deonice_dodaj, GroupLayout.PREFERRED_SIZE,
+                        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                								.addComponent(deonice_izbaci, GroupLayout.PREFERRED_SIZE,
+                        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                				.addGroup(gl.createParallelGroup()
+                						.addComponent(naplatnaMesta_scrollPane, GroupLayout.PREFERRED_SIZE,
+                								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                						.addGroup(gl.createSequentialGroup()
+                								.addComponent(naplatnaMesta_dodajE, GroupLayout.PREFERRED_SIZE,
+                        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        						.addComponent(naplatnaMesta_dodajF, GroupLayout.PREFERRED_SIZE,
+                        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                								.addComponent(naplatnaMesta_izbaci, GroupLayout.PREFERRED_SIZE,
+                        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(gl.createParallelGroup(BASELINE)
+                                .addComponent(nazivstaniceLbl, GroupLayout.PREFERRED_SIZE,
+        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nazivstaniceFld, GroupLayout.PREFERRED_SIZE,
+        								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(submitButton)
+                );
+        	}
         		break;
         	case BRI_KORISNIKA:
         		statusbar.setText("Korisnik :: " + Centrala.getInstance().getTrenutnoUlogovani().getUsername() + " - Brisanje korisnika");
