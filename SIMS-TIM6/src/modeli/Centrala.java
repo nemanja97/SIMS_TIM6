@@ -43,7 +43,7 @@ public class Centrala {
 		
 		XStream.setupDefaultSecurity(this.xstream);
 		this.xstream.addPermission(AnyTypePermission.ANY);
-		this.xstream.setMode(XStream.XPATH_RELATIVE_REFERENCES);;
+		this.xstream.setMode(XStream.SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES);
 		this.ucitavanjePodataka();
 	}
 	

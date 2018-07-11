@@ -413,7 +413,7 @@ public class AdminProzor extends JFrame {
 
                 submitButton.addActionListener(event  -> {
                 	
-                	NaplatnaStanica ns = new NaplatnaStanica(nazivstaniceFld.getText(), Centrala.getInstance(), deonice);
+                	NaplatnaStanica ns = new NaplatnaStanica(nazivstaniceFld.getText(),  deonice);
                 	
         	    	for (int i = 0; i < naplatnaMesta_model.getSize(); i++) {
         	    		String tip = (String) naplatnaMesta_model.get(i);

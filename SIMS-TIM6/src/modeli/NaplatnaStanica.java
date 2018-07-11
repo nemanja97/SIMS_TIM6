@@ -12,26 +12,25 @@ public class NaplatnaStanica {
 	private String naziv;
 	
 	private SefStanice sefStanice;
-	private Centrala centrala;
 	private ArrayList<Deonica> deonice;
 	private ArrayList<NaplatnoMesto> naplatnaMesta;
 	private ArrayList<Izvestaj> izvestaji;
 	
-	public NaplatnaStanica(String naziv, Centrala centrala, ArrayList<Deonica> deonice,
+	public NaplatnaStanica(String naziv, ArrayList<Deonica> deonice,
 			ArrayList<NaplatnoMesto> naplatnaMesta) {
 		super();
 		this.naziv = naziv;
-		this.centrala = centrala;
 		this.deonice = deonice;
+		this.sefStanice = null;
 		this.naplatnaMesta = naplatnaMesta;
 		this.izvestaji = new ArrayList<Izvestaj>();
 	}
 	
-	public NaplatnaStanica(String naziv, Centrala centrala, ArrayList<Deonica> deonice) {
+	public NaplatnaStanica(String naziv,  ArrayList<Deonica> deonice) {
 		super();
 		this.naziv = naziv;
-		this.centrala = centrala;
 		this.deonice = deonice;
+		this.sefStanice = null;
 		this.naplatnaMesta =  new ArrayList<NaplatnoMesto>();
 		this.izvestaji = new ArrayList<Izvestaj>();
 	}
@@ -41,18 +40,10 @@ public class NaplatnaStanica {
 		super();
 		this.naziv = naziv;
 		this.sefStanice = sefStanice;
-		this.centrala = centrala;
 		this.deonice = deonice;
 		this.naplatnaMesta = naplatnaMesta;
 		this.izvestaji = izvestaji;
 	}
-	
-	private Object readResolve() {
-	    for( NaplatnoMesto child: naplatnaMesta ) {
-	      child.setNaplatnaStanica(this);
-	    }
-	    return this;
-	  }
 
 	public String getNaziv() {
 		return naziv;
@@ -68,14 +59,6 @@ public class NaplatnaStanica {
 
 	public void setSefStanice(SefStanice sefStanice) {
 		this.sefStanice = sefStanice;
-	}
-
-	public Centrala getCentrala() {
-		return centrala;
-	}
-
-	public void setCentrala(Centrala centrala) {
-		this.centrala = centrala;
 	}
 
 	public ArrayList<Deonica> getDeonice() {
