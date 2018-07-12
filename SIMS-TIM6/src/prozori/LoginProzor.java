@@ -41,6 +41,7 @@ public class LoginProzor extends JFrame {
 		passField = new JPasswordField(15);
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(new SubmitAction(this));
+		getRootPane().setDefaultButton(submitButton);
 		submitButton.setMnemonic(KeyEvent.VK_ENTER);
 
 		createLayout(loginLabel, loginField, passwordLabel, passField, submitButton);
